@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Engine/World.h"
+#include "Engine.h"
 #include "Tank.h"
 #include "TankPlayerController.generated.h"
 
@@ -25,4 +27,5 @@ public:
 private:
 	void AimTowardsCrosshair();
 	
+	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 };
