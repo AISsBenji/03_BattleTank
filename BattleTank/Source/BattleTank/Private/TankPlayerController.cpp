@@ -16,7 +16,7 @@ void ATankPlayerController::BeginPlay() {
 
 void ATankPlayerController::Tick(float DeltaTime)
 {
-	Super::Tick( DeltaTime );	
+	Super::Tick(DeltaTime);	
 	AimTowardsCrosshair();
 }
 
@@ -30,7 +30,7 @@ void ATankPlayerController::AimTowardsCrosshair() {
 
 	FVector OutHitLocation; // Out parameter
 	if (GetSightRayHitLocation(OutHitLocation)) {
-		UE_LOG(LogTemp, Warning, TEXT("Look Direction : %s"), *OutHitLocation.ToString())
+		GetControlledTank()->AimAt(OutHitLocation);
 	}
 }
 
