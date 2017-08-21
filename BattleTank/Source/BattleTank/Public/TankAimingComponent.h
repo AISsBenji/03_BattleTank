@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "GameFramework/Actor.h"
 #include "TankAimingComponent.generated.h"
 
 
@@ -16,7 +18,9 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void AimAt(FVector HitLocation);
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
+	void AimAt(FVector HitLocation, float LaunchSpeed);
 
 protected:
 	// Called when the game starts
@@ -26,6 +30,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+private:
+	UStaticMeshComponent* Barrel = nullptr;
 	
 };
