@@ -43,10 +43,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 
 	// "De-project" the screen position of the crosshair oa a world direction
 	FVector LookDirection;
-	if (GetLookVectorHitLocation(ScreenLocation, LookDirection)) {
+	if (GetLookDirection(ScreenLocation, LookDirection)) {
 		// Line-trace along that LookDirection, and see what wr hit (up to max range)
 		GetLookVectorHitLocation(LookDirection, OutHitLocation);
-	}
+	} 
 
 	return true;
 }
@@ -59,13 +59,12 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility)) {
 		OutHitLocation = HitResult.Location;
 		return true;
-	} else {
-		OutHitLocation = FVector(0);
-		return false;
-	}
+	} 
+	OutHitLocation = FVector(0);
+	return false;
 }
 
-bool ATankPlayerController::GetLookVectorHitLocation(FVector2D ScreenLocation, FVector& LookDirection) const {
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const {
 	FVector CameraWorldLocation; // To be discarded
 
 	return DeprojectScreenPositionToWorld(
