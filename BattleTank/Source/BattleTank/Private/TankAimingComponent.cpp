@@ -46,11 +46,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 
 	if (bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("Aim Solution Found"))
 		MoveBarrelTowards(AimDirection);
 		MoveTurretTowards(AimDirection);
-	} else {
-		UE_LOG(LogTemp, Warning, TEXT("Aim Solution Not Found"))
 	}
 }
 
