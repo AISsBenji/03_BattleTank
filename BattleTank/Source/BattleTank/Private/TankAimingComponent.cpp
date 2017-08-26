@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Kismet/GameplayStatics.h"
 
 
@@ -17,6 +18,11 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
+{
+	Turret = TurretToSet;
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
@@ -42,6 +48,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		UE_LOG(LogTemp, Warning, TEXT("Aim Solution Found"))
 		MoveBarrelTowards(AimDirection);
+		MoveTurretTowards(AimDirection);
 	} else {
 		UE_LOG(LogTemp, Warning, TEXT("Aim Solution Not Found"))
 	}
@@ -54,6 +61,15 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	auto DeltaRotator = BarrelRotator - AimAsRotator;
 
 	Barrel->Elevate(DeltaRotator.Pitch);
+}
+
+void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
+{
+	auto TurretRotator = Turret->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = TurretRotator - AimAsRotator;
+
+	Turret->Rotate(DeltaRotator.Yaw);
 }
 
 
