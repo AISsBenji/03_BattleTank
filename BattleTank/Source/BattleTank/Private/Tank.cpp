@@ -2,6 +2,8 @@
 
 #include "Tank.h"
 #include "TankBarrel.h"
+#include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "Projectile.h"
 
 void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
@@ -22,6 +24,8 @@ ATank::ATank()
 
 	// no need to protect points ass added at construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
 
 // Called when the game starts or when spawned
