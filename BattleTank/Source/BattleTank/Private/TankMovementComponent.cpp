@@ -8,6 +8,12 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 	RightTrack = RightTrackToSet;
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	auto Name = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s : %s"), *Name, *MoveVelocity.ToString())
+}
+
 void UTankMovementComponent::IntendMoveForward(float Throw) {
 	if (!LeftTrack || !RightTrack) { return; }
 
@@ -27,4 +33,5 @@ void UTankMovementComponent::IntendTurnRight(float Throw) {
 	auto RightTrackForceApplied = RightTrack->GetForwardVector() * -Throw * MaxForce;
 	RightTrack->AddForceAtLocation(RightTrackForceApplied, RightTrack->GetComponentLocation());
 }
+
 
