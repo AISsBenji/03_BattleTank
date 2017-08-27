@@ -4,12 +4,13 @@
 #include "TankTrack.h"
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet) {
-	if (!LeftTrackToSet || !RightTrackToSet) { return; }
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw) {
+	if (!LeftTrack || !RightTrack) { return; }
+
 	auto LeftTrackForceApplied = LeftTrack->GetForwardVector() * Throw * MaxForce;
 	LeftTrack->AddForceAtLocation(LeftTrackForceApplied, LeftTrack->GetComponentLocation());
 
@@ -17,4 +18,13 @@ void UTankMovementComponent::IntendMoveForward(float Throw) {
 	RightTrack->AddForceAtLocation(RightTrackForceApplied, RightTrack->GetComponentLocation());
 }
 
+void UTankMovementComponent::IntendTurnRight(float Throw) {
+	if (!LeftTrack || !RightTrack) { return; }
+
+	auto LeftTrackForceApplied = LeftTrack->GetForwardVector() * Throw * MaxForce;
+	LeftTrack->AddForceAtLocation(LeftTrackForceApplied, LeftTrack->GetComponentLocation());
+
+	auto RightTrackForceApplied = RightTrack->GetForwardVector() * -Throw * MaxForce;
+	RightTrack->AddForceAtLocation(RightTrackForceApplied, RightTrack->GetComponentLocation());
+}
 
