@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Benjamin.K
 
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
