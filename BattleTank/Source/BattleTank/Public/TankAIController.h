@@ -7,8 +7,9 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/Controller.h"
 #include "Engine/World.h"
-#include "Tank.h"
 #include "TankAIController.generated.h"
+
+class UTankAimingComponent;
 
 /**
  * 
