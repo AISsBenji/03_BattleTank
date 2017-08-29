@@ -14,22 +14,27 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true; // TODO Should this really tick?
+	//Tick
+	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
-}
-
-void UTankAimingComponent::BeginPlay()
-{
-	LastFireTime = FPlatformTime::Seconds();
+	// InitializeComponent
+	bWantsInitializeComponent = true;
 }
 
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
-	if ((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds) {
+	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds) {
 		FiringStates = EFiringStates::Reloading;
+	} else if (IsBarrelMoving()) {
+		FiringStates = EFiringStates::Aiming;
+	} else {
+		FiringStates = EFiringStates::Locked;
 	}
-	// TODO Handle aiming and locked states
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	LastFireTime = GetWorld()->GetTimeSeconds();
 }
 
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
@@ -38,9 +43,16 @@ void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* Tur
 	Turret = TurretToSet;
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto ForwardVector = Barrel->GetForwardVector();
+	return !ForwardVector.Equals(AimDirection, 0.01);
+}
+
 
 void UTankAimingComponent::AimAt(FVector HitLocation) {
-	if (ensure(!Barrel || !Turret)) { return; } 
+	if (!ensure(Barrel)) { return; } 
 
 	// Calculate the OutLaunchVelocity
 	FVector OutLaunchVelocity;
@@ -59,7 +71,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation) {
 	);
 
 	if (bHaveAimSolution) {
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		MoveTurretTowards(AimDirection);
 	}
@@ -103,7 +115,7 @@ void UTankAimingComponent::Fire() {
 
 		Projectile->LaunchProjectile(LaunchSpeed);
 
-		LastFireTime = FPlatformTime::Seconds();
+		LastFireTime = GetWorld()->GetTimeSeconds();
 	}
 }
 

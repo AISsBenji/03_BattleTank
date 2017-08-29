@@ -23,7 +23,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw) {
-	if (ensure(!LeftTrack && !RightTrack)) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 
 	auto LeftTrackForceApplied = LeftTrack->GetForwardVector() * Throw * MaxForce;
 	LeftTrack->AddForceAtLocation(LeftTrackForceApplied, LeftTrack->GetComponentLocation());
@@ -33,7 +33,7 @@ void UTankMovementComponent::IntendMoveForward(float Throw) {
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw) {
-	if (ensure(!LeftTrack && !RightTrack)) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }
 
 	auto LeftTrackForceApplied = LeftTrack->GetForwardVector() * Throw * MaxForce;
 	LeftTrack->AddForceAtLocation(LeftTrackForceApplied, LeftTrack->GetComponentLocation());
