@@ -21,6 +21,17 @@ UTankAimingComponent::UTankAimingComponent()
 	bWantsInitializeComponent = true;
 }
 
+void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
+{
+	Barrel = BarrelToSet;
+	Turret = TurretToSet;
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	LastFireTime = GetWorld()->GetTimeSeconds();
+}
+
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
 	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds) {
@@ -32,15 +43,9 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	}
 }
 
-void UTankAimingComponent::BeginPlay()
+EFiringStates UTankAimingComponent::GetFiringState() const
 {
-	LastFireTime = GetWorld()->GetTimeSeconds();
-}
-
-void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
-{
-	Barrel = BarrelToSet;
-	Turret = TurretToSet;
+	return FiringStates;
 }
 
 bool UTankAimingComponent::IsBarrelMoving()
@@ -118,5 +123,7 @@ void UTankAimingComponent::Fire() {
 		LastFireTime = GetWorld()->GetTimeSeconds();
 	}
 }
+
+
 
 
