@@ -26,22 +26,16 @@ void UTankMovementComponent::IntendMoveForward(float Throw) {
 	if (!ensure(RightTrack)) { return; }
 	if (!ensure(LeftTrack)) { return; }
 
-	auto LeftTrackForceApplied = LeftTrack->GetForwardVector() * Throw * MaxForce;
-	LeftTrack->AddForceAtLocation(LeftTrackForceApplied, LeftTrack->GetComponentLocation());
-
-	auto RightTrackForceApplied = RightTrack->GetForwardVector() * Throw * MaxForce;
-	RightTrack->AddForceAtLocation(RightTrackForceApplied, RightTrack->GetComponentLocation());
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw) {
 	if (!ensure(RightTrack)) { return; }
 	if (!ensure(LeftTrack)) { return; }
 
-	auto LeftTrackForceApplied = LeftTrack->GetForwardVector() * Throw * MaxForce;
-	LeftTrack->AddForceAtLocation(LeftTrackForceApplied, LeftTrack->GetComponentLocation());
-
-	auto RightTrackForceApplied = RightTrack->GetForwardVector() * -Throw * MaxForce;
-	RightTrack->AddForceAtLocation(RightTrackForceApplied, RightTrack->GetComponentLocation());
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(-Throw);
 }
 
 

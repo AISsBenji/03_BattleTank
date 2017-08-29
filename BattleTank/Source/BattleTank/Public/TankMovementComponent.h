@@ -31,7 +31,4 @@ private:
 
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
-	
-	UPROPERTY(EditDefaultsOnly)
-	float MaxForce = 400000;
 };
