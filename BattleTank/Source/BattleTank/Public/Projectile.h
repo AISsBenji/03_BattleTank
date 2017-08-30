@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "Projectile.generated.h"
 
 UCLASS()
@@ -23,10 +25,15 @@ protected:
 private:
 	UProjectileMovementComponent* ProjectileMovement = nullptr;
 
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UStaticMeshComponent* CollisionMesh = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Particles")
+	UParticleSystemComponent* LaunchBlast = nullptr;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	void LaunchProjectile(float Speed);
-	
 };
