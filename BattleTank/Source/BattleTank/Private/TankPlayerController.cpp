@@ -3,6 +3,7 @@
 #include "TankPlayerController.h"
 #include "TankAimingComponent.h"
 #include "GameFramework/Controller.h"
+#include "Kismet/GameplayStatics.h"
 
 void ATankPlayerController::BeginPlay() {
 	Super::BeginPlay();
@@ -15,6 +16,23 @@ void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);	
 	AimTowardsCrosshair();
+}
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		// Subscribe our local method to the tank death event
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPlayerTankDeath);
+	}
+}
+
+void ATankPlayerController::OnPlayerTankDeath()
+{
+	GetWorld()->GetFirstPlayerController()->SwitchLevel("MainMenu");
 }
 
 void ATankPlayerController::AimTowardsCrosshair() {
