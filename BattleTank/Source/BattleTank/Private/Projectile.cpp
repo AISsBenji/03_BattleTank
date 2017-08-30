@@ -3,6 +3,7 @@
 #include "Projectile.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Public/TimerManager.h"
 #include "Engine/World.h"
 
 
@@ -48,6 +49,12 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate(true);
 	ExplosionForce->FireImpulse();
+
+	SetRootComponent(ExplosionForce);
+
+	CollisionMesh->DestroyComponent();
+
+	SetLifeSpan(DestroyDelay);
 }
 
 void AProjectile::LaunchProjectile(float Speed) {
