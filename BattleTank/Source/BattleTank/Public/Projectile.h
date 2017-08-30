@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Projectile.generated.h"
 
@@ -33,6 +34,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Particles")
 	UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category = "Particles")
+	URadialForceComponent* ExplosionForce = nullptr;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
